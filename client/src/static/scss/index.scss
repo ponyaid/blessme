@@ -263,6 +263,12 @@ h3 {
     text-align: center;
     margin-bottom: 1.5rem;
   }
+
+  &__desc {
+    text-align: center;
+    color: rgba(39, 43, 70, 0.8);
+    margin-bottom: 1.5rem;
+  }
 }
 
 .form {
@@ -325,4 +331,11 @@ h3 {
       text-decoration: underline;
     }
   }
+}
+
+.create {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
