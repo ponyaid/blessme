@@ -8,17 +8,15 @@ export const RegisterPage = () => {
     return (
         <>
             <Navbar />
-            <section className="content">
-                <div className="content__wrap">
-                    <RegisterForm />
-                    <div className="content__details">
-                        <p>
-                            Already have an account?&nbsp;
-                            <Link to="/login">Login</Link>
-                        </p>
-                    </div>
-                </div>
-            </section>
+            <div className="content">
+                <RegisterForm />
+                <section className="component component_sm">
+                    <p className="component__text">
+                        Already have an account?&nbsp;
+                        <Link to="/login" className="component__link">Login</Link>
+                    </p>
+                </section>
+            </div>
         </>
     )
 }

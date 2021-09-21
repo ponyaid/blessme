@@ -3,4 +3,6 @@ export const HIDE_LOADER = 'APP/HIDE_LOADER'
 
 export const LOGIN = 'AUTH/LOGIN'
 export const LOGOUT = 'AUTH/LOGOUT'
-export const REGISTER = 'AUTH/REGISTER'
+export const UPDATE_USER = 'AUTH/UPDATE_USER'
+
+export const CREATE_SPACE = 'SPACE/CREATE_SPACE'

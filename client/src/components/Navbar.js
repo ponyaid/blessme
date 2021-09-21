@@ -36,7 +36,7 @@ export const Navbar = () => {
                         {isMenu && <div className="dropMenu">
                             <ul className="dropMenu__list">
                                 <li className="dropMenu__listItem">
-                                    <Link to={user.space?.isActive ? '/space' : '/create'}>
+                                    <Link to={user.space?.alias ? `/s/${user.space.alias}` : '/create'}>
                                         Public page
                                     </Link>
                                 </li>

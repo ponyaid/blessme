@@ -1,5 +1,5 @@
 import { isExpired } from 'react-jwt'
-import { LOGIN, LOGOUT } from './types'
+import { LOGIN, LOGOUT, UPDATE_USER } from './types'
 
 
 const initialState = {
@@ -32,8 +32,14 @@ export const authReducer = (state = getAuthState(), action) => {
         case LOGOUT:
             localStorage.removeItem(storageName)
             return { ...state, user: null, token: null }
+        case UPDATE_USER:
+            localStorage.setItem(storageName,
+                JSON.stringify({
+                    user: action.payload.user,
+                    token: state.token
+                }))
+            return { ...state, user: action.payload.user }
         default:
             return state
     }
-
 }

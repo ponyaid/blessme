@@ -8,17 +8,15 @@ export const LoginPage = () => {
     return (
         <>
             <Navbar />
-            <section className="content">
-                <div className="content__wrap">
-                    <LoginForm />
-                    <div className="content__details">
-                        <p>
-                            Don't have an account yet?&nbsp;
-                            <Link to="/register">Registration</Link>
-                        </p>
-                    </div>
-                </div>
-            </section>
+            <div className="content">
+                <LoginForm />
+                <section className="component component_sm">
+                    <p className="component__text">
+                        Don't have an account yet?&nbsp;
+                        <Link to="/register" className="component__link">Registration</Link>
+                    </p>
+                </section>
+            </div>
         </>
     )
 }

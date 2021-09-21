@@ -6,16 +6,24 @@ import { HomePage } from './pages/HomePage'
 import { SpacePage } from './pages/SpacePage'
 import { CreatePostPage } from './pages/CreatePostPage'
 import { CreateSpacePage } from './pages/CreateSpacePage'
+import { useSelector } from 'react-redux'
 
 
 export const useRoutes = isAuthenticated => {
-    if (isAuthenticated) {
+    const { user } = useSelector(state => state.auth)
+
+    if (user) {
         return (
             <Switch>
                 <Route path="/home" exact><HomePage /></Route>
-                <Route path="/space" exact><SpacePage /></Route>
-                <Route path="/create" exact><CreateSpacePage /></Route>
+                <Route path="/create" exact>
+                    {user.space
+                        ? <Redirect to={`/s/${user.space.alias}`} />
+                        : <CreateSpacePage />
+                    }
+                </Route>
                 <Route path="/create-post" exact><CreatePostPage /></Route>
+                <Route path="/s/:id" exact><SpacePage /></Route>
                 <Redirect to="/home" />
             </Switch>
         )
@@ -25,6 +33,7 @@ export const useRoutes = isAuthenticated => {
             <Route path="/" exact><HomePage /></Route>
             <Route path="/login" exact><LoginPage /></Route>
             <Route path="/register" exact><RegisterPage /></Route>
+            <Route path="/s/:id" exact><SpacePage /></Route>
             <Redirect to="/" />
         </Switch>
     )

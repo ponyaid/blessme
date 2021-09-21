@@ -13,12 +13,12 @@ export const LoginForm = () => {
     }
 
     const loginHandler = async (e) => {
-        e.preventDefault() 
+        e.preventDefault()
         dispatch(login({ ...form }))
     }
 
     return (
-        <div className="component">
+        <section className="component component_sm">
             <h3 className="component__title">Login</h3>
             <form className="form">
                 <div className="form__inputs">
@@ -55,6 +55,6 @@ export const LoginForm = () => {
                     Login
                 </button>
             </form>
-        </div>
+        </section>
     )
 }

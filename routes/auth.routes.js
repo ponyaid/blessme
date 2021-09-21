@@ -72,7 +72,7 @@ router.post('/login',
             }
 
             const { email, password } = req.body
-            const user = await User.findOne({ email })
+            const user = await User.findOne({ email }).populate('space')
 
             if (!user) {
                 return res.status(400).json({ message: 'User is not found' })
