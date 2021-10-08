@@ -11,7 +11,7 @@ const schema = new Schema({
     createdAt: { type: Date, default: Date.now },
     isActive: { type: Boolean },
     posts: [{ type: Types.ObjectId, ref: 'Post' }],
-    fans: [{ type: Types.ObjectId, ref: 'User' }],
+    followers: [{ type: Types.ObjectId, ref: 'User' }],
 })
 
 

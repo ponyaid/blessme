@@ -7,8 +7,9 @@ export const CreateSpaceForm = ({ backHandler }) => {
     const dispatch = useDispatch()
     const { loading } = useSelector(state => state.app)
     const [form, setForm] = useState({
-        direction: '',
+        title: '',
         alias: '',
+        direction: '',
         onlyAdult: false
     })
 
@@ -29,13 +30,13 @@ export const CreateSpaceForm = ({ backHandler }) => {
             </p>
             <form className="form">
                 <div className="form__inputs">
-                    <p className="form__inputsTitle">Enter direction</p>
+                    <p className="form__inputsTitle">Enter title</p>
                     <input
-                        id="direction"
-                        name="direction"
+                        id="title"
+                        name="title"
                         type="text"
-                        value={form.direction}
-                        placeholder="Preacher"
+                        value={form.title}
+                        placeholder="Title"
                         onChange={changeHandler}
                         className="form__input"
                     />
@@ -48,6 +49,18 @@ export const CreateSpaceForm = ({ backHandler }) => {
                         type="text"
                         value={form.alias}
                         placeholder="publicname"
+                        onChange={changeHandler}
+                        className="form__input"
+                    />
+                </div>
+                <div className="form__inputs">
+                    <p className="form__inputsTitle">Enter direction</p>
+                    <input
+                        id="direction"
+                        name="direction"
+                        type="text"
+                        value={form.direction}
+                        placeholder="Preacher"
                         onChange={changeHandler}
                         className="form__input"
                     />

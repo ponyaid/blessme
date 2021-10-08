@@ -136,6 +136,43 @@ h3 {
     margin-left: 2rem;
   }
 
+  &__notif {
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    transition: background-color 0.1s ease-out;
+
+    &:hover {
+      background-color: rgba(154, 185, 206, 0.1);
+    }
+
+    span {
+      top: 0;
+      right: 0;
+      padding: 0 3px;
+      font-size: 9px;
+      font-weight: 500;
+      position: absolute;
+      min-width: 14px;
+      line-height: 14px;
+      text-align: center;
+      letter-spacing: 0.4px;
+
+      color: #f8fcff;
+      border-radius: 7px;
+      background: #ee2c5b;
+    }
+
+    .reactIcon {
+      color: #272a47;
+    }
+  }
+
   &__avatar {
     width: 2.5rem;
     height: 2.5rem;
@@ -165,25 +202,18 @@ h3 {
   background: #fafafa;
   box-shadow: 0px 8px 24px -6px rgba(59, 69, 75, 0.08);
 
-  &__list {
-    list-style: none;
-  }
-
   &__listItem {
+    display: flex;
+    color: #262626;
     font-size: 14px;
     text-align: start;
     padding: 12px 1rem;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #262626;
     transition: background-color 0.1s ease-out;
 
     &:hover {
       background-color: rgba(154, 185, 206, 0.1);
-    }
-
-    a {
-      color: #262626;
     }
 
     & + &_border {
@@ -214,6 +244,10 @@ h3 {
 
   &:hover {
     opacity: 0.8;
+  }
+
+  &_gray {
+    background: rgba(154, 185, 206, 0.1);
   }
 }
 

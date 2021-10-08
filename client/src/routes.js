@@ -15,15 +15,17 @@ export const useRoutes = isAuthenticated => {
     if (user) {
         return (
             <Switch>
+                <Route path="/login" exact> <Redirect to="/home" /></Route>
+                <Route path="/register" exact> <Redirect to="/home" /></Route>
                 <Route path="/home" exact><HomePage /></Route>
                 <Route path="/create" exact>
                     {user.space
-                        ? <Redirect to={`/s/${user.space.alias}`} />
+                        ? <Redirect to={`/${user.space.alias}`} />
                         : <CreateSpacePage />
                     }
                 </Route>
                 <Route path="/create-post" exact><CreatePostPage /></Route>
-                <Route path="/s/:id" exact><SpacePage /></Route>
+                <Route path="/:alias" exact><SpacePage /></Route>
                 <Redirect to="/home" />
             </Switch>
         )
@@ -33,7 +35,7 @@ export const useRoutes = isAuthenticated => {
             <Route path="/" exact><HomePage /></Route>
             <Route path="/login" exact><LoginPage /></Route>
             <Route path="/register" exact><RegisterPage /></Route>
-            <Route path="/s/:id" exact><SpacePage /></Route>
+            <Route path="/:alias"><SpacePage /></Route>
             <Redirect to="/" />
         </Switch>
     )
