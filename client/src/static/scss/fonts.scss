@@ -24,6 +24,14 @@
 
 @font-face {
     font-family: "SF Pro Display";
+    src: url("../fonts/SFProDisplay/SFProDisplay-Semibold.eot");
+    src: url("../fonts/SFProDisplay/SFProDisplay-Semibold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SF Pro Display";
     src: url("../fonts/SFProDisplay/SFProDisplay-Bold.eot");
     src: local("SF Pro Display Bold"), local("SFProDisplay-Bold"),
         url("../fonts/SFProDisplay/SFProDisplay-Bold.eot?#iefix") format("embedded-opentype"),
