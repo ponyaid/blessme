@@ -1,22 +1,9 @@
+import { showLoader, hideLoader } from './app.actions'
 import {
     LOGIN,
     LOGOUT,
-    UPDATE_USER,
-    SHOW_LOADER,
-    HIDE_LOADER,
-    GET_SPACE,
-    SET_IS_OWNER,
-    SET_IS_FOLLOWER
-} from './types'
-
-
-export function showLoader() {
-    return { type: SHOW_LOADER }
-}
-
-export function hideLoader() {
-    return { type: HIDE_LOADER }
-}
+    UPDATE_USER
+} from '../types'
 
 
 export function register(form) {
@@ -71,18 +58,17 @@ export function logout() {
     return dispatch => dispatch({ type: LOGOUT })
 }
 
-
-export function createSpace(form) {
+export function updateUser(form) {
     return async (dispatch, getState) => {
         dispatch(showLoader())
         try {
             const { token } = getState().auth
-            const res = await fetch('/api/space/create', {
+            const res = await fetch(`/api/auth/update`, {
                 method: 'POST',
                 body: JSON.stringify({ ...form }),
                 headers: {
-                    'Content-Type': 'application/json',
-                    'authorization': `Bearer ${token}`
+                    'authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
             })
             const json = await res.json()
@@ -90,7 +76,7 @@ export function createSpace(form) {
             if (!res.ok) {
                 throw new Error(json.message)
             }
-            dispatch({ type: GET_SPACE, payload: json.space })
+
             dispatch({ type: UPDATE_USER, payload: json })
             dispatch(hideLoader())
         } catch (error) {
@@ -99,78 +85,23 @@ export function createSpace(form) {
         }
     }
 }
-
-export function getSpace(alias) {
-    return async (dispatch, getState) => {
-        dispatch(showLoader())
-        try {
-            const res = await fetch(`/api/space/${alias}`)
-            const json = await res.json()
-
-            if (!res.ok) {
-                throw new Error(json.message)
-            }
-
-            const { user } = getState().auth
-
-            dispatch({ type: SET_IS_FOLLOWER, payload: user?.following?.includes(json?._id) })
-            dispatch({ type: SET_IS_OWNER, payload: user?.space?.alias === alias })
-
-            dispatch({ type: GET_SPACE, payload: json })
-            dispatch(hideLoader())
-        } catch (error) {
-            alert(error.message)
-            dispatch(hideLoader())
-        }
-    }
-}
-
-export function followSpace(alias) {
-    return async (dispatch, getState) => {
-        dispatch(showLoader())
-        try {
-            const { token, user } = getState().auth
-            const res = await fetch(`/api/space/${alias}/follow`, {
-                headers: { 'authorization': `Bearer ${token}` }
-            })
-            const json = await res.json()
-
-            if (!res.ok) {
-                throw new Error(json.message)
-            }
-
-            dispatch({ type: SET_IS_FOLLOWER, payload: true })
-            dispatch({ type: SET_IS_OWNER, payload: user?.space?.alias === alias })
-
-            dispatch({ type: GET_SPACE, payload: json.space })
-            dispatch({ type: UPDATE_USER, payload: json })
-            dispatch(hideLoader())
-        } catch (error) {
-            alert(error.message)
-            dispatch(hideLoader())
-        }
-    }
-}
-
-export function unfollowSpace(alias) {
+export function uploadAvatar(form) {
     return async (dispatch, getState) => {
         dispatch(showLoader())
         try {
             const { token } = getState().auth
-            const res = await fetch(`/api/space/${alias}/unfollow`, {
+            const res = await fetch(`/api/auth/upload`, {
+                body: form,
+                method: 'POST',
                 headers: { 'authorization': `Bearer ${token}` }
             })
+
             const json = await res.json()
 
             if (!res.ok) {
                 throw new Error(json.message)
             }
 
-            const { user } = getState().auth
-
-            dispatch({ type: SET_IS_FOLLOWER, payload: user?.following?.includes(json?._id) })
-            dispatch({ type: SET_IS_OWNER, payload: user?.space?.alias === alias })
-            dispatch({ type: GET_SPACE, payload: json.space })
             dispatch({ type: UPDATE_USER, payload: json })
             dispatch(hideLoader())
         } catch (error) {

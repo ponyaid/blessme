@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../redux/actions'
+import { FcGoogle } from 'react-icons/fc'
+import { login } from '../redux/actions/auth.actions'
+import { GoogleLogin } from 'react-google-login'
 
 
 export const LoginForm = () => {
@@ -16,6 +18,14 @@ export const LoginForm = () => {
         e.preventDefault()
         dispatch(login({ ...form }))
     }
+
+    const googleSuccess = async (res) => {
+        const userData = res.profileObj
+        dispatch(login({ ...userData }))
+    }
+
+    const googleFailure = async (error) => console.log(error)
+
 
     return (
         <section className="component component_sm">
@@ -41,19 +51,37 @@ export const LoginForm = () => {
                         className="form__input"
                     />
                 </div>
-                <a
-                    href="/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="form__link">
-                    Forgot password?
-                </a>
                 <button
                     disabled={loading}
                     onClick={loginHandler}
-                    className="btn btn_primary form__btn">
+                    className="btn btn_primary">
                     Login
                 </button>
+                <div className="form__details">
+                    <p className="form__detailsTitle">or</p>
+                    <GoogleLogin
+                        clientId="86367296794-tc24t2daos7ogmd399qbl6gumf7mlv5h.apps.googleusercontent.com"
+                        render={props => (
+                            <button
+                                onClick={props.onClick}
+                                disabled={props.disabled}
+                                className="btn btn_border">
+                                <FcGoogle />
+                                Login with Google
+                            </button>
+                        )}
+                        onSuccess={googleSuccess}
+                        onFailure={googleFailure}
+                        cookiePolicy="single_host_origin"
+                    />
+                    <a
+                        href="/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="form__link">
+                        Forgot password?
+                    </a>
+                </div>
             </form>
         </section>
     )

@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import thunk from 'redux-thunk'
 import { compose, createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import App from './App'
-import './static/scss/index.scss'
 import { rootReducer } from './redux/rootReducer'
+import './static/scss/index.scss'
+import App from './App'
 
 
 const store = createStore(rootReducer, compose(

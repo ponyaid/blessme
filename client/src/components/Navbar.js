@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaRegEnvelopeOpen } from 'react-icons/fa'
-import { logout } from '../redux/actions'
+import { logout } from '../redux/actions/auth.actions'
+import { OutsideClickWrapper } from '../components/OutsideClickWrapper'
+
 
 
 export const Navbar = () => {
@@ -15,8 +17,7 @@ export const Navbar = () => {
         dispatch(logout())
     }
 
-    const menuBtnHandler = e => {
-        e.preventDefault()
+    const menuBtnHandler = () => {
         setIsMenu(!isMenu)
     }
 
@@ -35,29 +36,34 @@ export const Navbar = () => {
                                 width="40"
                                 height="40"
                                 alt="avatar"
-                                src={user.avatar?.url || 'https://picsum.photos/200/300'}
+                                referrerPolicy="no-referrer"
+                                src={user.imageUrl || 'https://picsum.photos/200/300'}
                             />
                         </div>
-                        {isMenu && <div className="dropMenu">
-                            <div className="dropMenu__list">
-                                <Link
-                                    to={user.space?.alias ? `/${user.space.alias}` : '/create'}
-                                    className="dropMenu__listItem">
-                                    Public page
-                                </Link>
-                                <Link to='/' className="dropMenu__listItem">
-                                    Profile settings
-                                </Link>
-                                <Link to='/' className="dropMenu__listItem">
-                                    My subscriptions
-                                </Link>
-                                <div
-                                    onClick={logoutHandler}
-                                    className="dropMenu__listItem dropMenu__listItem_border">
-                                    Logout
+                        {isMenu &&
+                            <OutsideClickWrapper onOutsideClick={menuBtnHandler}>
+                                <div className="dropMenu">
+                                    <div className="dropMenu__list">
+                                        <Link
+                                            to={user.space ? `/${user.space.alias}` : '/create'}
+                                            className="dropMenu__listItem">
+                                            Public page
+                                        </Link>
+                                        <Link to='/profile' className="dropMenu__listItem">
+                                            Profile settings
+                                        </Link>
+                                        <Link to='/profile/subscriptions' className="dropMenu__listItem">
+                                            My subscriptions
+                                        </Link>
+                                        <div
+                                            onClick={logoutHandler}
+                                            className="dropMenu__listItem dropMenu__listItem_border">
+                                            Logout
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>}
+                            </OutsideClickWrapper>
+                        }
                     </button>
                 </div>
                 :

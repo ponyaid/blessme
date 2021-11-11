@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { createSpace } from '../redux/actions'
+import { createSpace } from '../redux/actions/space.actions'
 
 
 export const CreateSpaceForm = ({ backHandler }) => {

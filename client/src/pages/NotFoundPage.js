@@ -8,10 +8,12 @@ export const NotFoundPage = () => {
         <>
             <Navbar />
             <div className="content">
-                <section className="component">
-                    <h1>Page not found</h1>
-                    <Link to="/">Back to home</Link>
-                </section>
+                <div className="content__body">
+                    <section className="component">
+                        <h1>Page not found</h1>
+                        <Link to="/">Back to home</Link>
+                    </section>
+                </div>
             </div>
         </>
     )
