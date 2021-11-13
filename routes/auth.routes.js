@@ -51,7 +51,7 @@ router.post('/register',
             }
 
             const hashPassword = await bcrypt.hash(password, 12)
-            const user = new User({ name, email, password: hashPassword, googleId: '' })
+            const user = new User({ name, email, password: hashPassword })
             await user.save()
 
             const token = createToken(user.id)

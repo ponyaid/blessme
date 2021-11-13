@@ -27,7 +27,6 @@ export function createSpace(form) {
             dispatch({ type: GET_SPACE, payload: json.space })
             dispatch({ type: UPDATE_USER, payload: json.user })
             dispatch(hideLoader())
-            window.location.href = `/${json.space.alias}`
         } catch (error) {
             alert(error.message)
             dispatch(hideLoader())

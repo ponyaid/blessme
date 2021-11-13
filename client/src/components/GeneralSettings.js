@@ -1,64 +1,23 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import avatarSvg from '../static/img/avatar.svg'
 import classes from '../static/scss/settings.module.scss'
-import { Loader } from '../components/Loader'
 import { Editor } from '../components/Editor'
-import {
-    getSpace,
-    updateGeneral,
-    uploadOne
-} from '../redux/actions/space.actions'
 
-
-const initialState = {
-    alias: '',
-    title: '',
-    about: '',
-    cover: '',
-    avatar: '',
-    tagline: '',
+const disabledStyles = {
+    opacity: '0.4',
+    userSelect: 'none',
+    cursor: 'not-allowed',
+    pointerEvents: 'none'
 }
 
-export const GeneralSettings = () => {
-    const dispatch = useDispatch()
-    const [form, setForm] = useState(initialState)
-    const { user } = useSelector(state => state.auth)
-    const { space } = useSelector(state => state.space)
-    const { loading } = useSelector(state => state.app)
-
-    useEffect(() => {
-        if (user) dispatch(getSpace(user.space?.alias))
-    }, [user, dispatch])
-
-    useEffect(() => {
-        if (space) setForm(space)
-    }, [space])
-
-    const changeHandler = e => {
-        setForm({ ...form, [e.target.name]: e.target.value })
-    }
-
-    const saveHandler = e => {
-        e.preventDefault()
-        dispatch(updateGeneral(user.space.alias,
-            { ...space, [e.target.name]: form[e.target.name] }
-        ))
-    }
-
-    const setEditorContent = about => {
-        setForm({ ...form, about })
-    }
-
-    const uploadHandler = async ({ target }) => {
-        const formData = new FormData()
-        formData.append('file', target.files[0])
-        dispatch(uploadOne(user.space.alias, formData, 'avatar'))
-        target.value = ''
-    }
-
-    if (!space) return <Loader />
-
+export const GeneralSettings = ({
+    form,
+    space,
+    loading,
+    saveHandler,
+    changeHandler,
+    uploadHandler,
+    setEditorContent
+}) => {
     return (
         <div>
             <div className={classes.component}>
@@ -95,7 +54,7 @@ export const GeneralSettings = () => {
                                 name="alias"
                                 onClick={saveHandler}
                                 className="btn btn_secondary"
-                                disabled={form.alias === space.alias}>
+                                disabled={space ? form.alias === space.alias : !form.alias}>
                                 Save
                             </button>
                         </div>
@@ -131,14 +90,15 @@ export const GeneralSettings = () => {
                                 name="title"
                                 onClick={saveHandler}
                                 className="btn btn_secondary"
-                                disabled={form.title === space.title}>
+                                disabled={space ? form.title === space.title : !form.title}>
                                 Save
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div className={classes.component}>
+            <div className={classes.component}
+                style={!space ? disabledStyles : {}}>
                 <form className={classes.form}>
                     <div className={classes.form__inputsWrap}>
                         <div className={classes.form__inputs}>
@@ -152,7 +112,7 @@ export const GeneralSettings = () => {
                         </div>
                         <div className={classes.form__uploadImageWrap}>
                             <div className={classes.form__uploadImage}>
-                                <img alt="avatar" src={space.avatar || avatarSvg} />
+                                <img alt="avatar" src={space?.avatar || avatarSvg} />
                                 <label
                                     htmlFor="avatar"
                                     className={classes.form__uploadImageLabel} />
@@ -173,7 +133,8 @@ export const GeneralSettings = () => {
                     </div>
                 </form>
             </div>
-            <div className={classes.component}>
+            <div className={classes.component}
+                style={!space ? disabledStyles : {}}>
                 <form className={classes.form}>
                     <div className={classes.form__inputs}>
                         <h3 className={classes.form__inputsTitle}>
@@ -183,7 +144,7 @@ export const GeneralSettings = () => {
                             Please enter your page title, or a display name you are comfortable with..
                         </p>
                         <Editor
-                            content={space.about}
+                            content={space?.about || ''}
                             setConvertedContent={setEditorContent}
                         />
                     </div>
@@ -196,7 +157,7 @@ export const GeneralSettings = () => {
                                 name="about"
                                 onClick={saveHandler}
                                 className="btn btn_secondary"
-                                disabled={form.about === space.about}>
+                                disabled={space ? form.about === space.about : !form.about}>
                                 Save
                             </button>
                         </div>

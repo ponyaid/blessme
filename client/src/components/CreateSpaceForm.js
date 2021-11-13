@@ -1,103 +1,186 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { createSpace } from '../redux/actions/space.actions'
+import React from 'react'
+import classes from '../static/scss/settings.module.scss'
 
 
-export const CreateSpaceForm = ({ backHandler }) => {
-    const dispatch = useDispatch()
-    const { loading } = useSelector(state => state.app)
-    const [form, setForm] = useState({
-        title: '',
-        alias: '',
-        direction: '',
-        onlyAdult: false
-    })
+const disabledStyles = {
+    opacity: '0.4',
+    userSelect: 'none',
+    cursor: 'not-allowed',
+    pointerEvents: 'none'
+}
 
-    const changeHandler = e => {
-        setForm({ ...form, [e.target.name]: e.target.value })
-    }
-
-    const createHandler = async (e) => {
-        e.preventDefault()
-        dispatch(createSpace({ ...form }))
-    }
-
+export const CreateSpaceForm = ({
+    form,
+    step,
+    loading,
+    nextHandler,
+    backHandler,
+    changeHandler,
+    toggleHandler,
+    createHandler
+}) => {
     return (
-        <section className="component">
-            <h3 className="component__title">Become a creator</h3>
-            <p className="component__desc">
-                Almost ready! Complete and publish the page.
-            </p>
-            <form className="form">
-                <div className="form__inputs">
-                    <p className="form__inputsTitle">Enter title</p>
-                    <input
-                        id="title"
-                        name="title"
-                        type="text"
-                        value={form.title}
-                        placeholder="Title"
-                        onChange={changeHandler}
-                        className="form__input"
-                    />
-                </div>
-                <div className="form__inputs">
-                    <p className="form__inputsTitle">Enter URL alias</p>
-                    <input
-                        id="alias"
-                        name="alias"
-                        type="text"
-                        value={form.alias}
-                        placeholder="publicname"
-                        onChange={changeHandler}
-                        className="form__input"
-                    />
-                </div>
-                <div className="form__inputs">
-                    <p className="form__inputsTitle">Enter direction</p>
-                    <input
-                        id="direction"
-                        name="direction"
-                        type="text"
-                        value={form.direction}
-                        placeholder="Preacher"
-                        onChange={changeHandler}
-                        className="form__input"
-                    />
-                </div>
-                {/* <div className="form__inputs">
-                    <p className="form__inputsTitle">Adult content</p>
-                    <label className="form__checkbox">
+        <div>
+
+            <div className={classes.component}>
+                <form className={classes.form}>
+                    <div className={classes.form__inputs}>
+                        <h3 className={classes.form__inputsTitle}>
+                            Your Namespace
+                        </h3>
+                        <p className={classes.form__inputsDesc}>
+                            This is your URL namespace.
+                        </p>
+                        <div className={`form__inputGroup ${classes.form__inputGroup}`}>
+                            <span className={`form__inputGroupText ${classes.form__inputGroupText}`}>
+                                blessme.com/
+                            </span>
+                            <input
+                                id="alias"
+                                type="text"
+                                name="alias"
+                                maxLength="32"
+                                value={form.alias}
+                                onChange={changeHandler}
+                                disabled={loading || step !== 1}
+                                className={`form__inputGroupInput ${classes.form__inputGroupInput}`}
+                            />
+                        </div>
+                    </div>
+                    {step <= 1 && <div className={classes.form__footer}>
+                        <div className={classes.form__footerDetails}>
+                            <p>Please use 32 characters at maximum.</p>
+                        </div>
+                        <div className={classes.form__btnGroup}>
+                            <button
+                                name="alias"
+                                onClick={nextHandler}
+                                className="btn btn_secondary"
+                                disabled={form.alias.length < 4}>
+                                Next
+                            </button>
+                        </div>
+                    </div>}
+                </form>
+            </div>
+
+            <div className={classes.component}
+                style={step < 2 ? disabledStyles : {}}>
+                <form className={classes.form}>
+                    <div className={classes.form__inputs}>
+                        <h3 className={classes.form__inputsTitle}>
+                            Your Title
+                        </h3>
+                        <p className={classes.form__inputsDesc}>
+                            Please enter your page title, or a display name you are comfortable with..
+                        </p>
                         <input
-                            id="onlyAdult"
-                            name="onlyAdult"
-                            type="checkbox"
-                            checked={form.onlyAdult}
+                            id="title"
+                            type="text"
+                            name="title"
+                            maxLength="32"
+                            value={form.title}
+                            placeholder="Title here"
+                            onChange={changeHandler}
+                            disabled={loading || step !== 2}
+                            className={`form__input ${classes.form__input}`}
                         />
-                        <span>There is adult content</span>
-                    </label>
-                </div> */}
-                <button
-                    disabled={loading}
-                    onClick={createHandler}
-                    className="btn btn_primary form__btn">
-                    Create a page
-                </button>
-                <button
-                    disabled={loading}
-                    onClick={backHandler}
-                    className="btn form__btn">
-                    Back
-                </button>
-                <div className="form__details">
-                    <p>
-                        By creating a page, you agree to our&nbsp;
-                        <a href="/">Terms of Service</a>,&nbsp;
-                        <a href="/">Privacy Policy</a> and&nbsp;
-                        <a href="/">Cookie Policy</a>.
-                    </p>
-                </div>
-            </form>
-        </section>
+                    </div>
+                    {step <= 2 && <div className={classes.form__footer}>
+                        <div className={classes.form__footerDetails}>
+                            <p>Please use 32 characters at maximum.</p>
+                        </div>
+                        <div className={classes.form__btnGroup}>
+                            <button
+                                onClick={backHandler}
+                                className="btn btn_border"
+                                disabled={step < 2}>
+                                Back
+                            </button>
+                            <button
+                                name="title"
+                                onClick={nextHandler}
+                                className="btn btn_secondary"
+                                disabled={!form.title.length}>
+                                Next
+                            </button>
+                        </div>
+                    </div>}
+                </form>
+            </div>
+
+            <div className={classes.component}
+                style={step < 3 ? disabledStyles : {}}>
+                <form className={classes.form}>
+                    <div className={classes.form__inputs}>
+                        <h3 className={classes.form__inputsTitle}>
+                            Adult content
+                        </h3>
+                        <label className={classes.toggle}>
+                            <input
+                                type="checkbox"
+                                name="onlyAdult"
+                                checked={form.onlyAdult}
+                                onChange={toggleHandler}
+                                disabled={loading || step !== 3} />
+                            <span />
+                            My blog contains "adult content"
+                        </label>
+                    </div>
+                    {step <= 3 && <div className={classes.form__footer}>
+                        <div className={classes.form__footerDetails}>
+                        </div>
+                        <div className={classes.form__btnGroup}>
+                            <button
+                                onClick={backHandler}
+                                className="btn btn_border"
+                                disabled={step < 3}>
+                                Back
+                            </button>
+                            <button
+                                name="title"
+                                onClick={nextHandler}
+                                className="btn btn_secondary"
+                                disabled={step < 3}>
+                                Next
+                            </button>
+                        </div>
+                    </div>}
+                </form>
+            </div>
+
+            <div className={classes.component}
+                style={step < 4 ? disabledStyles : {}}>
+                <form className={classes.form}>
+                    <div className={classes.form__inputs}>
+                        <h3 className={classes.form__inputsTitle}>
+                            Confirm creation
+                        </h3>
+                        <p className={classes.form__inputsDesc}>
+                            Please enter your page title, or a display name you are comfortable with..
+                        </p>
+                    </div>
+                    <div className={classes.form__footer}>
+                        <div className={classes.form__footerDetails}>
+                        </div>
+                        <div className={classes.form__btnGroup}>
+                            <button
+                                onClick={backHandler}
+                                className="btn btn_border"
+                                disabled={step < 4}>
+                                Back
+                            </button>
+                            <button
+                                name="title"
+                                onClick={createHandler}
+                                className="btn btn_primary"
+                                disabled={step < 4}>
+                                Create public page
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     )
 }
