@@ -51,7 +51,7 @@
         padding: 20px;
 
         & > * + * {
-            margin-top: 12px;
+            margin-top: 1rem;
         }
     }
 
@@ -59,11 +59,29 @@
         font-size: 14px;
         line-height: 140%;
         letter-spacing: 0.5px;
-        color: #272b46;
+        color: rgba(39, 43, 70, 0.8);
+    }
+
+    &__label {
+        display: flex;
+        flex-flow: column;
+
+        & > span {
+            text-transform: uppercase;
+            font-size: 14px;
+            line-height: 140%;
+            letter-spacing: 0.5px;
+            color: rgba(39, 43, 70, 0.8);
+            margin-bottom: 0.5rem;
+        }
     }
 
     &__input {
         max-width: 20rem;
+    }
+
+    &__label > &__input {
+        max-width: none;
     }
 
     &__footer {

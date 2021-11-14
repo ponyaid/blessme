@@ -244,7 +244,7 @@ export const SpacePage = () => {
                             </Link>}
                         </div>
                         <div>
-                            <div className={`${classes.component}`}>
+                            {space.about && <div className={`${classes.component}`}>
                                 <div className={`${classes.component__head}`}>
                                     <div>
                                         <p className={classes.component__title}>
@@ -253,12 +253,11 @@ export const SpacePage = () => {
                                     </div>
                                 </div>
                                 <div className={classes.component__content}>
-                                    {space.about && <div
+                                    <div
                                         ref={aboutElem}
                                         className={classes.component__text}
                                         dangerouslySetInnerHTML={{ __html: space.about }}
-                                    />}
-
+                                    />
                                     {
                                         aboutElem?.current?.childNodes.length > 1 &&
                                         !notReadMore &&
@@ -272,9 +271,8 @@ export const SpacePage = () => {
                                             Read more
                                         </button>
                                     }
-
                                 </div>
-                            </div>
+                            </div>}
                             <div className={classes.feed}>
                                 <div className="dropdownGroup">
                                     <div className="dropdown">
