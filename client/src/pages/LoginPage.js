@@ -1,13 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Navbar } from '../components/Navbar'
 import { LoginForm } from '../components/LoginForm'
 
 
 export const LoginPage = () => {
     return (
         <>
-            <Navbar />
             <div className="content">
                 <div className="content__body">
                     <LoginForm />

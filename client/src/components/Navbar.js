@@ -42,26 +42,10 @@ export const Navbar = () => {
                         </div>
                         {isMenu &&
                             <OutsideClickWrapper onOutsideClick={menuBtnHandler}>
-                                <div className="dropMenu">
-                                    <div className="dropMenu__list">
-                                        <Link
-                                            to={user.space ? `/${user.space.alias}` : '/create'}
-                                            className="dropMenu__listItem">
-                                            Public page
-                                        </Link>
-                                        <Link to='/profile' className="dropMenu__listItem">
-                                            Profile settings
-                                        </Link>
-                                        <Link to='/profile/subscriptions' className="dropMenu__listItem">
-                                            My subscriptions
-                                        </Link>
-                                        <div
-                                            onClick={logoutHandler}
-                                            className="dropMenu__listItem dropMenu__listItem_border">
-                                            Logout
-                                        </div>
-                                    </div>
-                                </div>
+                                <DropMenu
+                                    user={user}
+                                    logoutHandler={logoutHandler}
+                                />
                             </OutsideClickWrapper>
                         }
                     </button>
@@ -73,5 +57,45 @@ export const Navbar = () => {
                 </div>
             }
         </header>
+    )
+}
+
+const DropMenu = ({ user, logoutHandler }) => {
+    return (
+        <div className="dropMenu">
+            <div className="dropMenu__list">
+                <Link
+                    to='/home'
+                    className="dropMenu__listItem">
+                    Home
+                </Link>
+                {!user.space && <Link
+                    to={`/create`}
+                    className="dropMenu__listItem">
+                    Create public page
+                </Link>}
+                {user.space && <Link
+                    to={`/${user.space.alias}`}
+                    className="dropMenu__listItem">
+                    My public page
+                </Link>}
+                {user.space && <Link
+                    to={`/settings`}
+                    className="dropMenu__listItem">
+                    Public page settings
+                </Link>}
+                <Link to='/profile' className="dropMenu__listItem  dropMenu__listItem_border">
+                    Profile general settings
+                </Link>
+                <Link to='/profile/subscriptions' className="dropMenu__listItem">
+                    My subscriptions
+                </Link>
+                <div
+                    onClick={logoutHandler}
+                    className="dropMenu__listItem dropMenu__listItem_border">
+                    Logout
+                </div>
+            </div>
+        </div>
     )
 }

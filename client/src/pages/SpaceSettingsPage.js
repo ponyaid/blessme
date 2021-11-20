@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Navbar } from '../components/Navbar'
 import { GeneralSettings } from '../components/GeneralSettings'
 import { SocialSettings } from '../components/SocialSettings'
 import classes from '../static/scss/settings.module.scss'
@@ -11,6 +10,7 @@ import {
     updateGeneral,
     uploadOne
 } from '../redux/actions/space.actions'
+import { BackButton } from '../components/BackButton'
 
 
 const initialState = {
@@ -62,10 +62,12 @@ export const SpaceSettingsPage = ({ section }) => {
 
     return (
         <>
-            <Navbar />
             <div className="content">
                 <div className="content__head">
-                    <h1>Public Page Settings</h1>
+                    <div>
+                        <BackButton />
+                        <h1>Public Page Settings</h1>
+                    </div>
                 </div>
                 <div className="content__body">
                     <div className="content__grid">

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { Navbar } from '../components/Navbar'
 import { Loader } from '../components/Loader'
 import { Post } from '../components/Post'
+import { ReadMoreWrapper } from '../components/ReadMoreWrapper'
 import { NotFoundPage } from './NotFoundPage'
 import { FaUserCog } from 'react-icons/fa'
 import avatarSvg from '../static/img/avatar.svg'
@@ -18,17 +18,18 @@ import {
     getSubscribers
 } from '../redux/actions/subscription.actions'
 import { getSpace, uploadOne } from '../redux/actions/space.actions'
+import { deletePost, getPosts } from '../redux/actions/post.actions'
 
 
 export const SpacePage = () => {
     const dispatch = useDispatch()
     const alias = useParams().alias
-    const [notReadMore, setNotReadMore] = useState(false)
+    const { user } = useSelector(state => state.auth)
     const { levels } = useSelector(state => state.level)
     const { loading } = useSelector(state => state.app)
     const { subscribers, subscription } = useSelector(state => state.subscription)
     const { space, isOwner } = useSelector(state => state.space)
-    const aboutElem = useRef(null)
+    const { posts } = useSelector(state => state.post)
 
     useEffect(() => {
         dispatch(getSpace(alias))
@@ -37,6 +38,7 @@ export const SpacePage = () => {
     useEffect(() => {
         if (space) {
             dispatch(getLevelsBySpace(space._id))
+            dispatch(getPosts({ space: space._id }))
             dispatch(getSubscription(space._id))
         }
     }, [dispatch, space])
@@ -44,6 +46,12 @@ export const SpacePage = () => {
     useEffect(() => {
         if (space) dispatch(getSubscribers(space._id))
     }, [dispatch, space, subscription])
+
+    const removePostHandler = e => {
+        e.preventDefault()
+        const postId = e.target.getAttribute('data-post-id')
+        dispatch(deletePost(postId))
+    }
 
     const subscribeHandler = () => {
         dispatch(subscribe(space._id))
@@ -76,7 +84,6 @@ export const SpacePage = () => {
 
     return (
         <>
-            <Navbar />
             <div className={classes.space}>
                 <div className={classes.cover}>
                     {space.cover &&
@@ -87,20 +94,36 @@ export const SpacePage = () => {
                     }
                     <div className={classes.cover__content}>
                         {isOwner &&
-                            <div className={classes.uploadCover}>
-                                <label
-                                    htmlFor="cover"
-                                    className={`${loading ? 'btn btn_border btn_loading' : 'btn btn_border'} 
-                                    ${classes.uploadCover__label}`}>
-                                    Change cover
-                                </label>
-                                <input
-                                    id="cover"
-                                    type="file"
-                                    accept="image/*"
-                                    disabled={loading}
-                                    onChange={uploadHandler}
-                                    className={classes.uploadCover__input} />
+                            <div className={classes.cover__nav}>
+                                <div className={classes.uploadCover}>
+                                    <label
+                                        htmlFor="cover"
+                                        style={{
+                                            border: 'none',
+                                            backgroundColor: '#fff'
+                                        }}
+                                        className={`btn btn_border`}>
+                                        Change cover
+                                    </label>
+                                    <input
+                                        id="cover"
+                                        type="file"
+                                        accept="image/*"
+                                        disabled={loading}
+                                        onChange={uploadHandler}
+                                        className={classes.uploadCover__input}
+                                    />
+                                </div>
+                                <Link
+                                    to="/settings"
+                                    style={{
+                                        border: 'none',
+                                        backgroundColor: '#fff'
+                                    }}
+                                    className='btn btn_border'>
+                                    <FaUserCog />
+                                    Settings
+                                </Link>
                             </div>
                         }
                     </div>
@@ -151,20 +174,14 @@ export const SpacePage = () => {
                                             }
                                         </>
                                     }
-                                    {isOwner &&
-                                        <Link to="/settings" className='btn btn_border'>
-                                            <FaUserCog />
-                                            Settings
-                                        </Link>
-                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className={classes.body}>
-                        <div className={classes.body__column}>
+                    <div className='content__grid'>
+                        <div>
                             {!Object.values({ instagram, facebook, telegram, youtube }).every(e => !e)
-                                && <div>
+                                && <div style={{ marginBottom: '8px' }}>
                                     <div className={classes.social}>
                                         {instagram && <a
                                             rel="nofollow"
@@ -197,7 +214,9 @@ export const SpacePage = () => {
                                     </div>
                                 </div>
                             }
-                            {!!levels.length && <div className={classes.component}>
+                            {!!levels.length && <div
+                                style={{ marginBottom: '12px' }}
+                                className={classes.component}>
                                 <div className={`${classes.component__head} ${classes.component__head_center}`}>
                                     <p className={classes.component__title}>
                                         Partnership levels
@@ -253,24 +272,11 @@ export const SpacePage = () => {
                                     </div>
                                 </div>
                                 <div className={classes.component__content}>
-                                    <div
-                                        ref={aboutElem}
-                                        className={classes.component__text}
-                                        dangerouslySetInnerHTML={{ __html: space.about }}
-                                    />
-                                    {
-                                        aboutElem?.current?.childNodes.length > 1 &&
-                                        !notReadMore &&
-                                        <button
-                                            onClick={() => {
-                                                aboutElem.current.style.display = 'initial'
-                                                aboutElem.current.style.webkitLineClamp = 'initial'
-                                                setNotReadMore(!notReadMore)
-                                            }}
-                                            className={classes.component__readMoreBtn}>
-                                            Read more
-                                        </button>
-                                    }
+                                    <ReadMoreWrapper
+                                        limit="2"
+                                        className={classes.component__text}>
+                                        {space.about}
+                                    </ReadMoreWrapper>
                                 </div>
                             </div>}
                             <div className={classes.feed}>
@@ -285,8 +291,14 @@ export const SpacePage = () => {
                                         <p className="dropdown__title">Все уровни</p>
                                     </div>
                                 </div>
-                                <Post />
-                                <Post />
+                                {posts.map(post =>
+                                    <Post
+                                        post={post}
+                                        user={user}
+                                        key={post._id}
+                                        removeHandler={removePostHandler}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>

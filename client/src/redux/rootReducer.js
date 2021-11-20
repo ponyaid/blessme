@@ -3,6 +3,7 @@ import { appReducer } from "./appReducer"
 import { authReducer } from "./authReducer"
 import { spaceReducer } from "./spaceReducer"
 import { levelReducer } from "./levelReducer"
+import { postReducer } from "./postReducer"
 import { subscriptionReducer } from "./subscriptionReducer"
 
 
@@ -11,5 +12,6 @@ export const rootReducer = combineReducers({
     auth: authReducer,
     space: spaceReducer,
     level: levelReducer,
+    post: postReducer,
     subscription: subscriptionReducer,
 })

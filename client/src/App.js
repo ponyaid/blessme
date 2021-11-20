@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { IconContext } from 'react-icons'
 import { useRoutes } from './routes'
+import { Navbar } from './components/Navbar'
+import { Footer } from './components/Footer'
 
 
 function App() {
@@ -12,10 +14,12 @@ function App() {
   return (
     <Router>
       <IconContext.Provider value={{ className: "reactIcon" }}>
+        <Navbar />
         <div className="main">
           {routes}
         </div>
       </IconContext.Provider>
+      <Footer />
     </Router>
   )
 }

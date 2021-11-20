@@ -29,8 +29,8 @@ export const GeneralSettings = ({
                         <p className={classes.form__inputsDesc}>
                             This is your URL namespace.
                         </p>
-                        <div className={`form__inputGroup ${classes.form__inputGroup}`}>
-                            <span className={`form__inputGroupText ${classes.form__inputGroupText}`}>
+                        <div className={`form__inputGroup`}>
+                            <span className={`form__inputGroupText`}>
                                 blessme.com/
                             </span>
                             <input
@@ -41,7 +41,7 @@ export const GeneralSettings = ({
                                 disabled={loading}
                                 value={form.alias}
                                 onChange={changeHandler}
-                                className={`form__inputGroupInput ${classes.form__inputGroupInput}`}
+                                className={`form__inputGroupInput`}
                             />
                         </div>
                     </div>

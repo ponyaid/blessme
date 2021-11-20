@@ -4,25 +4,36 @@ import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Post } from '../components/Post'
-import { Navbar } from '../components/Navbar'
 import classes from '../static/scss/home.module.scss'
-import { getSubscribers } from '../redux/actions/subscription.actions'
+import { getPosts } from '../redux/actions/post.actions'
+import {
+    getSubscribers,
+    getSubscriptions
+} from '../redux/actions/subscription.actions'
 
 
 export const HomePage = () => {
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.auth)
-    const { subscribers } = useSelector(state => state.subscription)
+    const { posts } = useSelector(state => state.post)
+    const { subscribers, subscriptions } = useSelector(state => state.subscription)
 
     useEffect(() => {
+        dispatch(getSubscriptions())
+
         if (user && user.space) {
             dispatch(getSubscribers(user.space._id))
         }
     }, [dispatch, user])
 
+    useEffect(() => {
+        if (subscriptions?.length) {
+            dispatch(getPosts({ spaces: subscriptions.map(sub => sub.space._id) }))
+        }
+    }, [dispatch, subscriptions])
+
     return (
         <>
-            <Navbar />
             <div className="content">
                 <div className="content__head">
                     <h1>Hello, {user.name}</h1>
@@ -170,6 +181,13 @@ export const HomePage = () => {
                                 </div>
                             </div>
                             <Post />
+                            {posts.map((post =>
+                                <Post
+                                    post={post}
+                                    user={user}
+                                    key={post._id}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>

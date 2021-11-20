@@ -1,17 +1,19 @@
 import { Link } from 'react-router-dom'
-import { Navbar } from '../components/Navbar'
 import classes from '../static/scss/settings.module.scss'
 import { ProfileGeneral } from '../components/ProfileGeneral'
 import { Subscriptions } from '../components/Subscriptions'
+import { BackButton } from '../components/BackButton'
 
 
 export const ProfilePage = ({ section }) => {
     return (
         <>
-            <Navbar />
             <div className="content">
                 <div className="content__head">
-                    <h1>Profile Settings</h1>
+                    <div>
+                        <BackButton />
+                        <h1>Profile Settings</h1>
+                    </div>
                 </div>
                 <div className="content__body">
                     <div className="content__grid">

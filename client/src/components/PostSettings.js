@@ -1,4 +1,6 @@
+import React, { useState } from 'react'
 import { Editor } from '../components/Editor'
+import { Select } from '../components/Select'
 import classes from '../static/scss/settings.module.scss'
 
 const disabledStyles = {
@@ -11,14 +13,29 @@ const disabledStyles = {
 export const PostSettings = ({
     form,
     post,
+    levels,
     loading,
+    modesHandler,
+    toggleHandler,
     saveHandler,
     changeHandler,
-    uploadHandler,
+    isLevelsSelect,
     setEditorContent }) => {
+    const [cover, setCover] = useState(null)
+
+    const uploadHandler = async ({ target }) => {
+        if (target.files[0]) {
+            setCover(target.files[0])
+        }
+    }
+
+    const submitHandler = e => {
+        e.preventDefault()
+        saveHandler(cover)
+    }
+
     return (
         <div>
-
             <div className={classes.component}>
                 <form className={classes.form}>
                     <div className={classes.form__inputs}>
@@ -29,44 +46,41 @@ export const PostSettings = ({
                             Your audience to support your ministry.
                         </p>
                         <label className={classes.form__label}>
-                            <span>Levels</span>
-                            <input
-                                id="level"
-                                type="text"
-                                name="level"
-                                maxLength="32"
-                                value={form.level}
-                                onChange={changeHandler}
-                                placeholder="Displayed title"
-                                className={`form__input ${classes.form__input}`}
+                            <span>Modes</span>
+                            <Select
+                                name='modes'
+                                selectHandler={modesHandler}
+                                options={[
+                                    { value: 'Open to everyone', text: 'Open to everyone' },
+                                    { value: 'Only subscribers', text: 'Only subscribers' },
+                                    { value: 'Partners only', text: 'Partners only' }
+                                ]}
                             />
                         </label>
+                        {isLevelsSelect &&
+                            <label className={classes.form__label}>
+                                <span>Levels</span>
+                                <Select
+                                    name='level'
+                                    selectHandler={changeHandler}
+                                    options={levels.map(level => {
+                                        return { value: level._id, text: level.name }
+                                    })}
+                                />
+                            </label>
+                        }
                         <div className={classes.form__label}>
                             <span>Comments</span>
                             <label className={classes.toggle}>
                                 <input
                                     type="checkbox"
                                     name="onlyAdult"
-                                    // checked={form.onlyAdult}
-                                    // onChange={toggleHandler}
+                                    checked={form.commentsDisabled}
+                                    onChange={toggleHandler}
                                     disabled={loading} />
                                 <span />
                                 Disable comments
                             </label>
-                        </div>
-                    </div>
-                    <div className={classes.form__footer}>
-                        <div className={classes.form__footerDetails}>
-                            <p>Please use 32 characters at maximum.</p>
-                        </div>
-                        <div className={classes.form__btnGroup}>
-                            <button
-                                name="name"
-                                onClick={saveHandler}
-                                className="btn btn_secondary"
-                                disabled={post ? form.title === post.title : !form.title}>
-                                Save
-                            </button>
                         </div>
                     </div>
                 </form>
@@ -76,10 +90,10 @@ export const PostSettings = ({
                 <form className={classes.form}>
                     <div className={classes.form__inputs}>
                         <h3 className={classes.form__inputsTitle}>
-                            Main text
+                            Main content
                         </h3>
                         <p className={classes.form__inputsDesc}>
-                            Levels are the options available to your audience to support your ministry.
+                            Content are the options available to your audience to support your ministry.
                         </p>
                         <label className={classes.form__label}>
                             <span>Title</span>
@@ -96,36 +110,44 @@ export const PostSettings = ({
                         </label>
                         <label className={classes.form__label}>
                             <span>Cover</span>
-                            <input
-                                id="cover"
-                                type="file"
-                                name="cover"
-                                value={form.cover}
-                            // onChange={changeHandler}
-                            // className={`form__input ${classes.form__input}`}
-                            />
+                            <div className={`${classes.upload}`}>
+                                <span className={classes.upload__text}>
+                                    Upload file
+                                </span>
+                                <p className={classes.upload__value}>
+                                    {form.cover || cover?.name || 'No file selected'}
+                                </p>
+                                <input
+                                    type="file"
+                                    name="cover"
+                                    accept="image/*"
+                                    disabled={loading}
+                                    onChange={uploadHandler}
+                                    className={classes.upload__input}
+                                />
+                            </div>
                         </label>
+                        {cover &&
+                            <div>
+                                <img
+                                    alt="cover"
+                                    src={URL.createObjectURL(cover)}
+                                    style={{ width: '100%' }}
+                                />
+                            </div>
+                        }
                         <label className={classes.form__label}>
                             <span>Body</span>
                             <Editor
                                 content={post?.body || ''}
                                 setConvertedContent={setEditorContent}
+                                toolbar={{
+                                    options: ['inline', 'list', 'emoji'],
+                                    inline: { options: ['bold', 'italic', 'underline'] },
+                                    list: { options: ['unordered'] },
+                                }}
                             />
                         </label>
-                    </div>
-                    <div className={classes.form__footer}>
-                        <div className={classes.form__footerDetails}>
-                            <p>Please use 32 characters at maximum.</p>
-                        </div>
-                        <div className={classes.form__btnGroup}>
-                            <button
-                                name="name"
-                                onClick={saveHandler}
-                                className="btn btn_secondary"
-                                disabled={post ? form.title === post.title : !form.title}>
-                                Save
-                            </button>
-                        </div>
                     </div>
                 </form>
             </div>
@@ -146,7 +168,7 @@ export const PostSettings = ({
                         <div className={classes.form__btnGroup}>
                             <button
                                 name="title"
-                                // onClick={createHandler}
+                                onClick={submitHandler}
                                 className="btn btn_primary"
                                 disabled={false}>
                                 Create post

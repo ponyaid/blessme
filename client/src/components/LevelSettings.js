@@ -149,7 +149,7 @@ export const LevelSettings = ({
                             content={level ? level.description : ''}
                             setConvertedContent={setEditorContent}
                             toolbar={{
-                                options: ['inline', 'list'],
+                                options: ['inline', 'list', 'emoji'],
                                 inline: { options: ['bold', 'italic', 'underline'] },
                                 list: { options: ['unordered'] },
                             }}

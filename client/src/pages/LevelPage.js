@@ -1,5 +1,4 @@
-import { Navbar } from '../components/Navbar'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { LevelSettings } from '../components/LevelSettings'
@@ -8,6 +7,7 @@ import {
     updateLevel,
     uploadImage
 } from '../redux/actions/level.actions'
+import { BackButton } from '../components/BackButton'
 
 
 const initialState = {
@@ -55,10 +55,12 @@ export const LevelPage = () => {
 
     return (
         <>
-            <Navbar />
             <div className="content">
                 <div className="content__head">
-                    <h1>Level Settings</h1>
+                    <div>
+                        <BackButton />
+                        <h1>Level Settings</h1>
+                    </div>
                 </div>
                 <div className="content__body">
                     <div className="content__grid">

@@ -4,9 +4,9 @@ import { useWindowSize } from 'react-use'
 import Swal from 'sweetalert2'
 import Confetti from 'react-confetti'
 import { CreateSpaceForm } from '../components/CreateSpaceForm'
-import { Navbar } from '../components/Navbar'
 import classes from '../static/scss/settings.module.scss'
 import { createSpace } from '../redux/actions/space.actions'
+import { BackButton } from '../components/BackButton'
 
 
 
@@ -61,10 +61,10 @@ export const SpaceCreatePage = () => {
                 height={height}
                 run={success}
             />
-            <Navbar />
             <div className="content">
                 <div className="content__head">
                     <div>
+                        <BackButton />
                         <h1>Become a creator</h1>
                         <p className="content__desc">
                             Please follow the steps to configure your Project and deploy it.

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Navbar } from '../components/Navbar'
 import { LevelSettings } from '../components/LevelSettings'
 import { createLevel } from '../redux/actions/level.actions'
+import { BackButton } from '../components/BackButton'
 
 const initialState = {
     name: '',
@@ -27,10 +27,12 @@ export const LevelCreatePage = () => {
 
     return (
         <>
-            <Navbar />
             <div className="content">
                 <div className="content__head">
-                    <h1>Level Settings</h1>
+                    <div>
+                        <BackButton />
+                        <h1>Level Settings</h1>
+                    </div>
                 </div>
                 <div className="content__body">
                     <div className="content__grid">

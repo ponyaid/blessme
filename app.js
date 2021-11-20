@@ -11,6 +11,7 @@ const PORT = config.get('port') || 5000
 app.use(express.json({ extended: true }))
 app.use('/api/auth', require('./routes/auth.routes'))
 app.use('/api/spaces', require('./routes/space.routes'))
+app.use('/api/posts', require('./routes/post.routes'))
 app.use('/api/levels', require('./routes/level.routes'))
 app.use('/api/subscriptions', require('./routes/subscription.routes'))
 
