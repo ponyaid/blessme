@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FcGoogle } from 'react-icons/fc'
+import { useTranslation } from 'react-i18next'
 import { login } from '../redux/actions/auth.actions'
 import { GoogleLogin } from 'react-google-login'
 
 
 export const LoginForm = () => {
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const { loading } = useSelector(state => state.app)
     const [form, setForm] = useState({ email: '', password: '' })
@@ -29,7 +31,9 @@ export const LoginForm = () => {
 
     return (
         <section className="component component_sm">
-            <h3 className="component__title">Login</h3>
+            <h3 className="component__title">
+                {t('login.title')}
+            </h3>
             <form className="form">
                 <div className="form__inputs">
                     <input
@@ -37,7 +41,7 @@ export const LoginForm = () => {
                         name="email"
                         type="text"
                         value={form.email}
-                        placeholder="Enter your email"
+                        placeholder={t('login.email-label')}
                         onChange={changeHandler}
                         className="form__input"
                     />
@@ -46,7 +50,7 @@ export const LoginForm = () => {
                         name="password"
                         type="password"
                         value={form.password}
-                        placeholder="Enter password"
+                        placeholder={t('login.password-label')}
                         onChange={changeHandler}
                         className="form__input"
                     />
@@ -55,10 +59,12 @@ export const LoginForm = () => {
                     disabled={loading}
                     onClick={loginHandler}
                     className="btn btn_primary">
-                    Login
+                    {t('login.button')}
                 </button>
                 <div className="form__details">
-                    <p className="form__detailsTitle">or</p>
+                    <p className="form__detailsTitle">
+                        {t('login.or')}
+                    </p>
                     <GoogleLogin
                         clientId="86367296794-tc24t2daos7ogmd399qbl6gumf7mlv5h.apps.googleusercontent.com"
                         render={props => (
@@ -67,7 +73,7 @@ export const LoginForm = () => {
                                 disabled={props.disabled}
                                 className="btn btn_border">
                                 <FcGoogle />
-                                Login with Google
+                                {t('login.google')}
                             </button>
                         )}
                         onSuccess={googleSuccess}
@@ -79,7 +85,7 @@ export const LoginForm = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="form__link">
-                        Forgot password?
+                        {t('login.forgot-password')}
                     </a>
                 </div>
             </form>

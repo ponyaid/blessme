@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FcGoogle } from 'react-icons/fc'
+import { useTranslation } from 'react-i18next'
 import { GoogleLogin } from 'react-google-login'
 import { register } from '../redux/actions/auth.actions'
 
 
 export const RegisterForm = () => {
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const { loading } = useSelector(state => state.app)
     const [form, setForm] = useState({
@@ -32,7 +34,9 @@ export const RegisterForm = () => {
 
     return (
         <section className="component component_sm">
-            <h3 className="component__title">Registration</h3>
+            <h3 className="component__title">
+                {t('register.title')}
+            </h3>
             <form className="form">
                 <div className="form__details">
                     <GoogleLogin
@@ -43,14 +47,16 @@ export const RegisterForm = () => {
                                 disabled={props.disabled}
                                 className="btn btn_border">
                                 <FcGoogle />
-                                Login with Google
+                                {t('register.google')}
                             </button>
                         )}
                         onSuccess={googleSuccess}
                         onFailure={googleFailure}
                         cookiePolicy="single_host_origin"
                     />
-                    <p className="form__detailsTitle">or</p>
+                    <p className="form__detailsTitle">
+                        {t('register.or')}
+                    </p>
                 </div>
                 <div className="form__inputs">
                     <input
@@ -58,7 +64,7 @@ export const RegisterForm = () => {
                         name="name"
                         type="text"
                         value={form.name}
-                        placeholder="Enter your name"
+                        placeholder={t('register.name-label')}
                         onChange={changeHandler}
                         className="form__input"
                     />
@@ -67,7 +73,7 @@ export const RegisterForm = () => {
                         name="email"
                         type="text"
                         value={form.email}
-                        placeholder="Enter your email"
+                        placeholder={t('register.email-label')}
                         onChange={changeHandler}
                         className="form__input"
                     />
@@ -76,7 +82,7 @@ export const RegisterForm = () => {
                         name="password"
                         type="password"
                         value={form.password}
-                        placeholder="Enter password"
+                        placeholder={t('register.password-label')}
                         onChange={changeHandler}
                         className="form__input"
                     />
@@ -85,11 +91,11 @@ export const RegisterForm = () => {
                     disabled={loading}
                     onClick={registerHandler}
                     className="btn btn_primary form__btn">
-                    Registration
+                    {t('register.button')}
                 </button>
                 <div className="form__details">
                     <p className="form__detailsText">
-                        By registering, you agree to our&nbsp;
+                        {t('register.details')}&nbsp;
                         <a href="/">Terms of Service</a>,&nbsp;
                         <a href="/">Privacy Policy</a> and&nbsp;
                         <a href="/">Cookie Policy</a>.

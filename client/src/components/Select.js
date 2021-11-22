@@ -6,11 +6,14 @@ import classes from '../static/scss/settings.module.scss'
 export const Select = ({
     name,
     options,
-    selectHandler }) => {
+    selectHandler,
+    value
+}) => {
     return (
         <div className={classes.selectWrap}>
             <select
                 name={name}
+                value={value}
                 onChange={selectHandler}
                 className={classes.select}>
                 {options.map((option, index) =>

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-// import 'moment/locale/ru'
+import 'moment/locale/ru'
 import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useSelector, useDispatch } from 'react-redux'
 import { Post } from '../components/Post'
 import classes from '../static/scss/home.module.scss'
@@ -14,6 +15,7 @@ import {
 
 export const HomePage = () => {
     const dispatch = useDispatch()
+    const { t, i18n } = useTranslation()
     const { user } = useSelector(state => state.auth)
     const { posts } = useSelector(state => state.post)
     const { subscribers, subscriptions } = useSelector(state => state.subscription)
@@ -36,22 +38,35 @@ export const HomePage = () => {
         <>
             <div className="content">
                 <div className="content__head">
-                    <h1>Hello, {user.name}</h1>
+                    <h1>
+                        {t('home.title')}&#44;&nbsp;
+                        {user.name}&nbsp;&#128075;
+                    </h1>
                     <div className="content__head-nav">
-                        <Link to="/profile" className="btn btn_secondary">Manage</Link>
+                        <Link to="/profile" className="btn btn_secondary">
+                            {t('home.manage')}
+                        </Link>
                     </div>
                 </div>
                 {user.space ?
                     <section className={classes.main}>
                         <div className={classes.main__head}>
-                            <h2>Your Public Page</h2>
+                            <h2>{t('home.space.title')}</h2>
                             <div className={classes.main__nav}>
-                                <Link to={`/${user.space.alias}`} className="btn btn_border">Visit</Link>
-                                <Link to={`/settings`} className="btn btn_border">Settings</Link>
+                                <Link
+                                    to={`/${user.space.alias}`}
+                                    className="btn btn_border">
+                                    {t('home.space.visit')}
+                                </Link>
+                                <Link
+                                    to={`/settings`}
+                                    className="btn btn_border">
+                                    {t('home.space.settings')}
+                                </Link>
                             </div>
                         </div>
                         <p className={classes.main__desc}>
-                            Manage the Teams that you're a part of, join suggested ones, or create a new one.
+                            {t('home.space.desc')}
                         </p>
                         <div className={classes.space}>
                             <div className={classes.space__grid}>
@@ -70,7 +85,7 @@ export const HomePage = () => {
                                         <div className={classes.space__infoRow}>
                                             <div>
                                                 <dt className={classes.space__infoTitle}>
-                                                    Title
+                                                    {t('home.info.title')}
                                                 </dt>
                                                 <dd className={classes.space__infoDesc}>
                                                     {user.space.title}
@@ -78,7 +93,7 @@ export const HomePage = () => {
                                             </div>
                                             <div>
                                                 <dt className={classes.space__infoTitle}>
-                                                    Status
+                                                    {t('home.info.status')}
                                                 </dt>
                                                 <dd className={`${classes.space__infoDesc}`}>
                                                     Complete
@@ -88,31 +103,37 @@ export const HomePage = () => {
                                         <div className={classes.space__infoRow}>
                                             <div>
                                                 <dt className={classes.space__infoTitle}>
-                                                    Activity
+                                                    {t('home.info.activity')}
                                                 </dt>
                                                 <dd className={classes.space__infoDesc}>
-                                                    <span>{subscribers.length} followers</span>
+                                                    <span>
+                                                        {subscribers.length}&nbsp;
+                                                        {t('home.info.followers')}
+                                                    </span>
                                                 </dd>
                                             </div>
                                             <div>
                                                 <dt className={classes.space__infoTitle}>
-                                                    Profit
+                                                    {t('home.info.profit')}
                                                 </dt>
                                                 <dd className={classes.space__infoDesc}>
-                                                    <span>€320 per month</span>
+                                                    <span>
+                                                        €320&nbsp;
+                                                        {t('home.info.per-month')}
+                                                    </span>
                                                 </dd>
                                             </div>
                                         </div>
                                         <div className={classes.space__infoRow}>
                                             <div>
                                                 <dt className={classes.space__infoTitle}>
-                                                    Created
+                                                    {t('home.info.created')}
                                                 </dt>
                                                 <dd className={classes.space__infoDesc}>
                                                     <Moment
                                                         ago
                                                         fromNow
-                                                        locale="ru">
+                                                        locale={i18n.language}>
                                                         {user.space.createdAt}
                                                     </Moment>
                                                 </dd>
@@ -125,10 +146,10 @@ export const HomePage = () => {
                     </section> :
                     <section className={classes.main}>
                         <div className={classes.main__head}>
-                            <h2>Your Public Page</h2>
+                            <h2>{t('home.space.title')}</h2>
                         </div>
                         <p className={classes.main__desc}>
-                            Manage the Teams that you're a part of, join suggested ones, or create a new one.
+                            {t('home.space.desc')}
                         </p>
                         <div
                             className={classes.space}
@@ -144,7 +165,7 @@ export const HomePage = () => {
                                     flexFlow: 'column',
                                     alignItems: 'center'
                                 }}>
-                                    <h3>Become a creator</h3>
+                                    <h3>{t('home.space.become-title')}</h3>
                                     <p style={{
                                         fontSize: '14px',
                                         lineHeight: '140%',
@@ -152,12 +173,12 @@ export const HomePage = () => {
                                         color: '#272b46',
                                         margin: '12px 0'
                                     }}>
-                                        Almost ready! Complete and publish the page.
+                                        {t('home.space.become-desc')}
                                     </p>
                                     <Link
                                         to="/create"
                                         className="btn btn_primary">
-                                        Create a page
+                                        {t('home.space.become-btn')}
                                     </Link>
                                 </div>
                             </div>

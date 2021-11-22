@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { rootReducer } from './redux/rootReducer'
 import './static/scss/index.scss'
 import App from './App'
+import './i18n'
 
 
 const store = createStore(rootReducer, compose(

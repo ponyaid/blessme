@@ -626,24 +626,22 @@ h3 {
     gap: 20px;
     display: grid;
     padding: 1rem 0;
-    grid-template-columns:  25% 25% auto;
+    grid-template-columns: 25% 25% auto;
   }
 
   &__title {
+    display: block;
     font-size: 14px;
-    line-height: 140%;
-    letter-spacing: 0.5px;
+    padding: 0.5rem 0;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: rgba(39, 43, 70, 1);
-    margin-bottom: 0.5rem;
   }
 
   &__listItem {
-    height: 2rem;
-    display: flex;
+    display: block;
     font-size: 14px;
-    line-height: 140%;
-    align-items: center;
+    padding: 0.5rem 0;
     letter-spacing: 0.04em;
     color: rgba(39, 42, 71, 0.7);
     transition: color 0.1s ease-out;

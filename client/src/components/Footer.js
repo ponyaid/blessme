@@ -1,12 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { FaCcMastercard, FaCcVisa, FaCcApplePay } from 'react-icons/fa'
 import { Select } from './Select'
 
 
 export const Footer = () => {
+    const { t, i18n } = useTranslation()
+
+    const changeLanguage = (e) => {
+        i18n.changeLanguage(e.target.value)
+    }
+
     return (
-        <section className="footer">
+        <section
+            className="footer"
+            style={{ marginTop: 'auto' }}>
             <div style={{ padding: '1rem 0' }}>
                 <Link to="/"
                     className="logo navbar__logo">
@@ -14,49 +23,49 @@ export const Footer = () => {
                 </Link>
             </div>
             <div className="footer__content">
-                
                 <div>
                     <p className="footer__title">
-                        Details
+                        {t('footer.legal')}
                     </p>
                     <div>
                         <Link
                             to="/"
                             className="footer__listItem">
-                            About us
+                            {t('footer.terms-of-use')}
                         </Link>
                         <Link
                             to="/"
                             className="footer__listItem">
-                            Help center
+                            {t('footer.privacy-policy')}
                         </Link>
                     </div>
                 </div>
                 <div>
                     <p className="footer__title">
-                        Legal
+                        {t('footer.details')}
                     </p>
                     <div>
                         <Link
                             to="/"
                             className="footer__listItem">
-                            Terms of use
+                            {t('footer.about-us')}
                         </Link>
                         <Link
                             to="/"
                             className="footer__listItem">
-                            Privacy Policy
+                            {t('footer.help-center')}
                         </Link>
                     </div>
                 </div>
+
                 <div style={{ marginLeft: 'auto' }}>
                     <p className="footer__title">
-                        Contacts
+                        {t('footer.contacts')}
                     </p>
                     <address className="footer__address">
-                        600 Townsend Street, Suite 500<br />
-                        San Francisco, CA 94103<br />
-                        Telephone: +1 (833) 972-8766<br />
+                        {t('footer.address')}
+                        <br />
+                        {t('footer.telephone')}
                     </address>
                 </div>
             </div>
@@ -67,13 +76,15 @@ export const Footer = () => {
                 <FaCcApplePay />
             </div>
             <div className="footer__copyright">
-                <p>Copyright © 2021 Blessme Inc. All rights reserved.</p>
+                <p>{t('footer.copyright')}</p>
                 <Select
                     name='language'
                     options={[
                         { value: 'en', text: 'EN' },
                         { value: 'ru', text: 'RU' }
                     ]}
+                    value={i18n.language}
+                    selectHandler={changeLanguage}
                 />
             </div>
         </section>

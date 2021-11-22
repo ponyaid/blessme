@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { FaRegEnvelopeOpen } from 'react-icons/fa'
+import { useTranslation } from 'react-i18next'
 import { logout } from '../redux/actions/auth.actions'
 import { OutsideClickWrapper } from '../components/OutsideClickWrapper'
 
@@ -9,6 +10,7 @@ import { OutsideClickWrapper } from '../components/OutsideClickWrapper'
 
 export const Navbar = () => {
     const dispatch = useDispatch()
+    const { t, i18n } = useTranslation()
     const { user } = useSelector(state => state.auth)
     const [isMenu, setIsMenu] = useState(false)
 
@@ -52,8 +54,12 @@ export const Navbar = () => {
                 </div>
                 :
                 <div className="navbar__nav">
-                    <Link to="/login" className="btn navbar__navItem">Login</Link>
-                    <Link to="/register" className="btn btn_secondary navbar__navItem">Join</Link>
+                    <Link to="/login" className="btn navbar__navItem">
+                        {t('navbar.login')}
+                    </Link>
+                    <Link to="/register" className="btn btn_secondary navbar__navItem">
+                        {t('navbar.join')}
+                    </Link>
                 </div>
             }
         </header>
@@ -61,39 +67,41 @@ export const Navbar = () => {
 }
 
 const DropMenu = ({ user, logoutHandler }) => {
+    const { t, i18n } = useTranslation()
+
     return (
         <div className="dropMenu">
             <div className="dropMenu__list">
                 <Link
                     to='/home'
                     className="dropMenu__listItem">
-                    Home
+                    {t('dropmenu.home')}
                 </Link>
                 {!user.space && <Link
                     to={`/create`}
                     className="dropMenu__listItem">
-                    Create public page
+                    {t('dropmenu.create-page')}
                 </Link>}
                 {user.space && <Link
                     to={`/${user.space.alias}`}
                     className="dropMenu__listItem">
-                    My public page
+                    {t('dropmenu.my-page')}
                 </Link>}
                 {user.space && <Link
                     to={`/settings`}
                     className="dropMenu__listItem">
-                    Public page settings
+                    {t('dropmenu.page-settings')}
                 </Link>}
                 <Link to='/profile' className="dropMenu__listItem  dropMenu__listItem_border">
-                    Profile general settings
+                    {t('dropmenu.profile')}
                 </Link>
                 <Link to='/profile/subscriptions' className="dropMenu__listItem">
-                    My subscriptions
+                    {t('dropmenu.my-subscriptions')}
                 </Link>
                 <div
                     onClick={logoutHandler}
                     className="dropMenu__listItem dropMenu__listItem_border">
-                    Logout
+                    {t('dropmenu.logout')}
                 </div>
             </div>
         </div>
